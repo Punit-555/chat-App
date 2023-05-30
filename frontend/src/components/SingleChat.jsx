@@ -3,19 +3,15 @@ import { ChatState } from "../Context/ChatProviders";
 import { Box, Text } from "@chakra-ui/layout";
 import { IconButton } from "@chakra-ui/react";
 import { ArrowBackIcon } from "@chakra-ui/icons";
-import { getSender , getSenderFull } from "../Config/ChatLogics";
+import { getSender, getSenderFull } from "../Config/ChatLogics";
 import ProfileModal from "./Miscellenous/ProfileModal";
 import UpdateGroupChatModal from "./Miscellenous/UpdateGroupChatModal";
+
 function SingleChat({ fetchAgain, setFetchAgain }) {
-
   const { user, selectedChat, setSelectedChat } = ChatState();
-
-
-
   return (
     <>
-      {
-      selectedChat ? (
+      {selectedChat ? (
         <>
           <Text
             fontSize={{ base: "28px", md: "30px" }}
@@ -27,38 +23,41 @@ function SingleChat({ fetchAgain, setFetchAgain }) {
             justifyContent={{ base: "space-between" }}
             alignItems="center"
           >
-            {" "}
             <IconButton
               d={{ base: "flex", md: "none" }}
               icon={<ArrowBackIcon />}
               onClick={() => setSelectedChat("")}
             />
+
             {!selectedChat.isGroupChat ? (
               <>
                 {getSender(user, selectedChat.users)}
+
                 <ProfileModal user={getSenderFull(user, selectedChat.users)} />
               </>
             ) : (
               <>
                 {selectedChat.chatName.toUpperCase()}
-                <UpdateGroupChatModal 
+                <UpdateGroupChatModal
                   fetchAgain={fetchAgain}
                   setFetchAgain={setFetchAgain}
                 />
               </>
             )}
           </Text>
+
           <Box
-           d="flex"
-           flexDir="column"
-           justifyContent="center"
-           p={3}
-           bg="#E8E8E8"
-           w="100%"
-           h="100%"
-           borderRadius="lg"
-           overflow="hidden"
-          >  
+            d="flex"
+            flexDir="column"
+            justifyContent="center"
+            p={3}
+            bg="#E8E8E8"
+            w="100%"
+            h="100%"
+            borderRadius="lg"
+            overflow="hidden"
+          >
+            {/* {Message} */}
           </Box>
         </>
       ) : (
