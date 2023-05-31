@@ -18,7 +18,6 @@ import io from 'socket.io-client';
 
 import { Dot } from 'react-animated-dots'
 
-
 // Socket Connnection
 const ENDPOINT = "http://localhost:5000";
 var socket, selectedChatCompare;
@@ -35,100 +34,6 @@ function SingleChat({ fetchAgain, setFetchAgain }) {
   
   const toast = useToast();
 
-  // const fetchMessages = async () => {
-  //   if (!selectedChat) return;
-
-  //   try {
-  //     const config = {
-  //       headers: {
-  //         Authorization: `Bearer ${user.token}`,
-  //       },
-  //     };
-  //     const data = await axios.get(
-  //       `http://localhost:5000/api/message/${selectedChat._id}`,
-  //       config
-  //     );
-  //     console.log("Messages", messages);
-  //     setMessages(data);
-
-  //     setLoading(false);
-  //   } catch (error) {
-  //     toast({
-  //       title: "Error Occured!",
-  //       description: "Failed to send Message",
-  //       status: "error",
-  //       duration: 5000,
-  //       isClosable: true,
-  //       position: "bottom",
-  //     });
-  //   }
-  // };
-
-  // const fetchMessages = async () => {
-  //   if (!selectedChat) return;
-
-  //   try {
-  //     const config = {
-  //       headers: {
-  //         Authorization: `Bearer ${user.token}`,
-  //       },
-  //     };
-  //     setLoading(true);
-  //     const { data } = await axios.get(
-  //       `http://localhost:5000/api/message/${selectedChat._id}`,
-  //       config
-  //     );
-  //     setMessages(data);
-  //     setLoading(false);
-  //   } catch (error) {
-  //     toast({
-  //       title: "Error Occured!",
-  //       description: "Failed to Load the Messages",
-  //       status: "error",
-  //       duration: 5000,
-  //       isClosable: true,
-  //       position: "bottom",
-  //     });
-  //   }
-  // };
-  //  useEffect(() => {
-  //   fetchMessages();
-  // }, [fetchAgain]);
-
-  // const sendMessage = async (event) => {
-  //   if (event.key === "Enter" && messages) {
-  //     try {
-  //       const config = {
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //           Authorization: `Bearer ${user.token}`,
-  //         },
-  //       };
-  //       setNewMessage("");
-  //       const { data } = await axios.post(
-  //         "http://localhost:5000/api/message",
-  //         {
-  //           content: newMessage,
-  //           chatId: selectedChat._id,
-  //         },
-  //         config
-  //       );
-
-  //       // console.log("Messageing Data -> ", data);
-
-  //       setMessages([...messages, data]);
-  //     } catch (error) {
-  //       toast({
-  //         title: "Error Occured!",
-  //         description: "Failed to send Message",
-  //         status: "error",
-  //         duration: 5000,
-  //         isClosable: true,
-  //         position: "bottom",
-  //       });
-  //     }
-  //   }
-  // };
 
   const fetchMessages = async () => {
     if (!selectedChat) return;
