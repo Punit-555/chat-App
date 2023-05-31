@@ -19,7 +19,6 @@ const registerUser = async (req, res) => {
     pic,
     token: name,
   });
-
   const token = generateToken(user._id);
 
   const temp = await User.updateOne(

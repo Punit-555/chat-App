@@ -7,7 +7,8 @@ import { Tooltip } from "@chakra-ui/tooltip";
 import { BellIcon, ChevronDownIcon } from "@chakra-ui/icons";
 import { Avatar } from "@chakra-ui/avatar";
 import { Spinner } from "@chakra-ui/spinner";
-import { Input, Toast, useToast } from "@chakra-ui/react";
+import { Input, useToast } from "@chakra-ui/react";
+import { MDBBadge } from "mdb-react-ui-kit";
 import {
   Menu,
   MenuButton,
@@ -27,9 +28,9 @@ import {
 import axios from "axios";
 import ChatLoading from "../ChatLoading";
 import UserListItem from "../UserAvatar/UserListItem";
+import { getSender } from "../../Config/ChatLogics";
 
 function SideDrawer() {
-  
   const history = useHistory();
   const [search, setSearch] = useState("");
   const [searchResult, setSearchResult] = useState([]);
@@ -37,7 +38,14 @@ function SideDrawer() {
   const [loadingChat, setLoadingChat] = useState(false);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { user, setSelectedChat, chats, setChats } = ChatState();
+  const {
+    user,
+    setSelectedChat,
+    chats,
+    setChats,
+    notification,
+    setNotification,
+  } = ChatState();
 
   const logoutHandler = () => {
     localStorage.removeItem("userInfo");
@@ -47,7 +55,6 @@ function SideDrawer() {
   const toast = useToast();
 
   const handleSearch = async () => {
-
     if (!search) {
       toast({
         title: "Please Enter something in search",
@@ -88,7 +95,6 @@ function SideDrawer() {
   };
 
   const accessChat = async (userId) => {
-
     try {
       setLoadingChat(true);
       const config = {
@@ -126,10 +132,9 @@ function SideDrawer() {
         d="flex"
         justifyContent="space-between"
         alignItems="center"
-        bg="white"
         w="100%"
-        p="5px 10px 5px 10px"
-        borderWidth="5px"
+        borderWidth="2px"
+        backgroundColor={"#E6FFFD"}
       >
         <Tooltip label="Search Users to chat" hasArrow placement="bottom-end">
           <Button variant="ghost" onClick={onOpen}>
@@ -139,13 +144,44 @@ function SideDrawer() {
             </Text>
           </Button>
         </Tooltip>
-        <Text fontSize="2xl" fontFamily="Work sans">
+        <Text
+          fontSize="2xl"
+          fontFamily="Work sans"
+          style={{
+            display: "flex",
+            justifyContent: "center",
+          }}
+          color ="#F266AB"
+          fontWeight='bold'
+        >
           Talk-A-Tive
         </Text>
-        <div>
+
+        <div style={{ display: "flex", justifyContent: "end" }}>
           <Menu>
             <MenuButton p={1}>
-              <BellIcon fontSize="2xl" m={1} />
+              
+                <BellIcon fontSize="2xl" />
+                &nbsp;
+          
+              &nbsp;
+
+              <MenuList pl={2}>
+                {!notification.length && "No New Messages"}
+                {notification.map((notif) => (
+                  <MenuItem
+                    key={notif._id}
+                    onClick={() => {
+                      setSelectedChat(notif.chat);
+                      setNotification(notification.filter((n) => n !== notif));
+                    }}
+                  >
+                    {notif.chat.isGroupChat
+                      ? `New Message in ${notif.chat.chatName}`
+                      : `New Message from ${getSender(user, notif.chat.users)}`}
+                  </MenuItem>
+                ))}
+              </MenuList>
             </MenuButton>
           </Menu>
 
@@ -169,12 +205,13 @@ function SideDrawer() {
           </Menu>
         </div>
       </Box>
+
       <Drawer placement="left" onClose={onClose} isOpen={isOpen}>
         <DrawerOverlay />
         <DrawerContent>
           <DrawerHeader borderBottomWidth="1px">Search Users</DrawerHeader>
           <DrawerBody>
-            <Box d="flex" pb={2}>
+            <Box d="flex" alignContent={"center"} pb={2}>
               <Input
                 placeholder="Search by name or email"
                 mr={2}
